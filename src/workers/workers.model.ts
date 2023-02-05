@@ -1,5 +1,12 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
-
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { Role } from 'src/roles/roles.model';
+import { WorkerRoles } from 'src/roles/worker-roles.model';
 interface WorkersCreationAttrs {
   FIO: string;
   email: string;
@@ -24,4 +31,7 @@ export class Workers extends Model<Workers, WorkersCreationAttrs> {
 
   @Column({ type: DataType.STRING, allowNull: false })
   password: string;
+
+  @BelongsToMany(() => Role, () => WorkerRoles)
+  roles: Role[];
 }
