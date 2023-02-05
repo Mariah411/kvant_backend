@@ -15,7 +15,7 @@ export class WorkersService {
     const worker = await this.workerRepository.create(dto);
     const role = await this.roleService.getRoleByValue('USER');
     await worker.$set('roles', [role.id]);
-
+    worker.roles = [role];
     return worker;
   }
 
@@ -24,5 +24,13 @@ export class WorkersService {
       include: { all: true },
     });
     return workers;
+  }
+
+  async getWorkerByEmail(email: string) {
+    const worker = await this.workerRepository.findOne({
+      where: { email: email },
+      include: { all: true },
+    });
+    return worker;
   }
 }

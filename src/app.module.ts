@@ -7,6 +7,7 @@ import { WorkersService } from './workers/workers.service';
 import { WorkersModule } from './workers/workers.module';
 import { Workers } from './workers/workers.model';
 import { RolesModule } from './roles/roles.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   controllers: [],
@@ -27,6 +28,7 @@ import { RolesModule } from './roles/roles.module';
     }),
     WorkersModule,
     RolesModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

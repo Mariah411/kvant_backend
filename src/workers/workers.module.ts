@@ -14,6 +14,6 @@ import { Workers } from './workers.model';
     SequelizeModule.forFeature([Workers, Role, WorkerRoles]),
     RolesModule,
   ],
-  exports: [SequelizeModule],
+  exports: [SequelizeModule, WorkersService],
 })
 export class WorkersModule {}
