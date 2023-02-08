@@ -1,10 +1,20 @@
 import { AddRoleDto } from './dto/add-role.dto';
 import { RolesGuard } from './../auth/roles.guard';
 import { CreateWorkerDto } from './dto/create-worker.dto';
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { WorkersService } from './workers.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles-auth.decorator';
+import { UpdateWorkerDto } from './dto/update-worker.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('workers')
@@ -28,5 +38,19 @@ export class WorkersController {
   @Post('/roles')
   addRole(@Body() addRoleDto: AddRoleDto) {
     return this.workersService.addRoletoWorker(addRoleDto);
+  }
+
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
+  @Put(':id')
+  update(@Param('id') id: number, @Body() updateWorkerDto: UpdateWorkerDto) {
+    return this.workersService.updateWorker(id, updateWorkerDto);
+  }
+
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
+  @Delete(':id')
+  delete(@Param('id') id: number) {
+    return this.workersService.deleteWorker(id);
   }
 }

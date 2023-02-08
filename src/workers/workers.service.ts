@@ -1,3 +1,4 @@
+import { UpdateWorkerDto } from './dto/update-worker.dto';
 import { AddRoleDto } from './dto/add-role.dto';
 import { JwtAuthGuard } from './../auth/jwt-auth.guard';
 import { RolesService } from './../roles/roles.service';
@@ -52,5 +53,23 @@ export class WorkersService {
       'Пользователь или роль не найдены',
       HttpStatus.NOT_FOUND,
     );
+  }
+
+  async updateWorker(id: number, dto: UpdateWorkerDto) {
+    const worker = await this.workerRepository.update(
+      { email: dto.email, FIO: dto.FIO },
+      { where: { id: id } },
+    );
+    return worker;
+  }
+
+  async deleteWorker(id: number) {
+    const isDelete = await this.workerRepository.destroy({
+      where: {
+        id: id,
+      },
+    });
+
+    return isDelete;
   }
 }
