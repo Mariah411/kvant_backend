@@ -1,3 +1,4 @@
+import { Groups } from './../groups/gpoups.model';
 import { AuthModule } from './../auth/auth.module';
 import { RolesModule } from './../roles/roles.module';
 import { WorkerRoles } from './../roles/worker-roles.model';
@@ -12,7 +13,7 @@ import { Workers } from './workers.model';
   controllers: [WorkersController],
   providers: [WorkersService],
   imports: [
-    SequelizeModule.forFeature([Workers, Role, WorkerRoles]),
+    SequelizeModule.forFeature([Workers, Role, WorkerRoles, Groups]),
     RolesModule,
     forwardRef(() => AuthModule),
   ],

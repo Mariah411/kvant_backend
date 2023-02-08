@@ -10,10 +10,13 @@ import { Workers } from './workers/workers.model';
 import { RolesModule } from './roles/roles.module';
 import { AuthModule } from './auth/auth.module';
 import { KvantumsModule } from './kvantums/kvantums.module';
+import { GroupsService } from './groups/groups.service';
+import { GroupsModule } from './groups/groups.module';
+import { Groups } from './groups/gpoups.model';
 
 @Module({
   controllers: [],
-  providers: [WorkersService],
+  providers: [WorkersService, GroupsService],
   imports: [
     ConfigModule.forRoot({
       envFilePath: `${process.env.NODE_ENV}.env`,
@@ -25,13 +28,14 @@ import { KvantumsModule } from './kvantums/kvantums.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [Workers, Role, WorkerRoles, Kvantum],
+      models: [Workers, Role, WorkerRoles, Kvantum, Groups],
       autoLoadModels: true,
     }),
     WorkersModule,
     RolesModule,
     AuthModule,
     KvantumsModule,
+    GroupsModule,
   ],
 })
 export class AppModule {}

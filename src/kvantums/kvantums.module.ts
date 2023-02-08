@@ -1,3 +1,4 @@
+import { Groups } from 'src/groups/gpoups.model';
 import { Kvantum } from './kvantums.model';
 import { Module } from '@nestjs/common';
 import { KvantumsController } from './kvantums.controller';
@@ -7,6 +8,6 @@ import { SequelizeModule } from '@nestjs/sequelize';
 @Module({
   controllers: [KvantumsController],
   providers: [KvantumsService],
-  imports: [SequelizeModule.forFeature([Kvantum])],
+  imports: [SequelizeModule.forFeature([Kvantum, Groups])],
 })
 export class KvantumsModule {}

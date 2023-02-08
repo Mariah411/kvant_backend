@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { Groups } from 'src/groups/gpoups.model';
 
 interface KvantumCreationAttrs {
   name: string;
@@ -16,4 +17,7 @@ export class Kvantum extends Model<Kvantum, KvantumCreationAttrs> {
 
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
   name: string;
+
+  @HasMany(() => Groups)
+  groups: Groups[];
 }

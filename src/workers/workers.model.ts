@@ -2,9 +2,11 @@ import {
   BelongsToMany,
   Column,
   DataType,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Groups } from 'src/groups/gpoups.model';
 import { Role } from 'src/roles/roles.model';
 import { WorkerRoles } from 'src/roles/worker-roles.model';
 interface WorkersCreationAttrs {
@@ -34,4 +36,7 @@ export class Workers extends Model<Workers, WorkersCreationAttrs> {
 
   @BelongsToMany(() => Role, () => WorkerRoles)
   roles: Role[];
+
+  @HasMany(() => Groups)
+  groups: Groups[];
 }
