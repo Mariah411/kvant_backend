@@ -1,3 +1,4 @@
+import { Kvantum } from './kvantums/kvantums.model';
 import { WorkerRoles } from './roles/worker-roles.model';
 import { Role } from './roles/roles.model';
 import { Module } from '@nestjs/common';
@@ -8,6 +9,7 @@ import { WorkersModule } from './workers/workers.module';
 import { Workers } from './workers/workers.model';
 import { RolesModule } from './roles/roles.module';
 import { AuthModule } from './auth/auth.module';
+import { KvantumsModule } from './kvantums/kvantums.module';
 
 @Module({
   controllers: [],
@@ -23,12 +25,13 @@ import { AuthModule } from './auth/auth.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [Workers, Role, WorkerRoles],
+      models: [Workers, Role, WorkerRoles, Kvantum],
       autoLoadModels: true,
     }),
     WorkersModule,
     RolesModule,
     AuthModule,
+    KvantumsModule,
   ],
 })
 export class AppModule {}
