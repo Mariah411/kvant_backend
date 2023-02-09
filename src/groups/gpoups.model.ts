@@ -1,9 +1,11 @@
+import { Student } from './../students/students.model';
 import { Kvantum } from './../kvantums/kvantums.model';
 import {
   BelongsTo,
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -43,4 +45,7 @@ export class Groups extends Model<Groups, GroupsCreationAttrs> {
 
   @BelongsTo(() => Kvantum, { onDelete: 'SET NULL' })
   kvantum: Kvantum;
+
+  @HasMany(() => Student, { onDelete: 'SET NULL' })
+  students: Student[];
 }
