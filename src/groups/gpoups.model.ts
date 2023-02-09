@@ -31,16 +31,16 @@ export class Groups extends Model<Groups, GroupsCreationAttrs> {
   shedule: string;
 
   @ForeignKey(() => Workers)
-  @Column({ type: DataType.INTEGER, allowNull: true })
+  @Column({ type: DataType.INTEGER })
   id_teacher: number;
 
-  @BelongsTo(() => Workers)
+  @BelongsTo(() => Workers, { onDelete: 'SET NULL' })
   teacher: Workers;
 
   @ForeignKey(() => Kvantum)
   @Column({ type: DataType.INTEGER, allowNull: true })
   id_kvantum: number;
 
-  @BelongsTo(() => Kvantum)
+  @BelongsTo(() => Kvantum, { onDelete: 'SET NULL' })
   kvantum: Kvantum;
 }

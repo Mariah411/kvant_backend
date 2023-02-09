@@ -37,6 +37,6 @@ export class Workers extends Model<Workers, WorkersCreationAttrs> {
   @BelongsToMany(() => Role, () => WorkerRoles)
   roles: Role[];
 
-  @HasMany(() => Groups)
+  @HasMany(() => Groups, { onDelete: 'SET NULL' })
   groups: Groups[];
 }
