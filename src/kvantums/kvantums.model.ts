@@ -5,7 +5,7 @@ interface KvantumCreationAttrs {
   name: string;
 }
 
-@Table({ tableName: 'kvantum' })
+@Table({ tableName: 'kvantum', createdAt: false, updatedAt: false })
 export class Kvantum extends Model<Kvantum, KvantumCreationAttrs> {
   @Column({
     type: DataType.INTEGER,

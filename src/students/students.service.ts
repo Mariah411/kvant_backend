@@ -10,12 +10,34 @@ export class StudentsService {
   ) {}
 
   async createStudent(dto: CreateStudentDto) {
-    const student = this.studentRepository.create(dto);
+    const student = await this.studentRepository.create(dto);
     return student;
   }
 
   async findAllStudents() {
-    const students = this.studentRepository.findAll();
+    const students = await this.studentRepository.findAll();
     return students;
+  }
+
+  async updateStudent(id: number, dto: CreateStudentDto) {
+    const isUpdate = await this.studentRepository.update(
+      {
+        id_group: dto.id_group,
+        FIO: dto.FIO,
+        b_date: dto.b_date,
+        year_study: dto.year_study,
+      },
+      { where: { id: id } },
+    );
+    return isUpdate;
+  }
+
+  async deleteStudent(id: number) {
+    const isDelete = await this.studentRepository.destroy({
+      where: {
+        id: id,
+      },
+    });
+    return isDelete;
   }
 }

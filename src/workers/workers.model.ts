@@ -15,7 +15,7 @@ interface WorkersCreationAttrs {
   password: string;
 }
 
-@Table({ tableName: 'workers' })
+@Table({ tableName: 'workers', createdAt: false, updatedAt: false })
 export class Workers extends Model<Workers, WorkersCreationAttrs> {
   @Column({
     type: DataType.INTEGER,

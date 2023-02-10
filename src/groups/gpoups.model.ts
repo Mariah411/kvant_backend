@@ -16,7 +16,7 @@ interface GroupsCreationAttrs {
   shedule: string;
 }
 
-@Table({ tableName: 'gpoups' })
+@Table({ tableName: 'gpoups', createdAt: false, updatedAt: false })
 export class Groups extends Model<Groups, GroupsCreationAttrs> {
   @Column({
     type: DataType.INTEGER,

@@ -2,10 +2,15 @@ import { CreateStudentDto } from './dto/create-student.dto';
 import { StudentsService } from './students.service';
 import { Controller } from '@nestjs/common';
 import {
+  Delete,
   Get,
   Post,
+  Put,
 } from '@nestjs/common/decorators/http/request-mapping.decorator';
-import { Body } from '@nestjs/common/decorators/http/route-params.decorator';
+import {
+  Body,
+  Param,
+} from '@nestjs/common/decorators/http/route-params.decorator';
 
 @Controller('students')
 export class StudentsController {
@@ -19,5 +24,15 @@ export class StudentsController {
   @Get()
   getAll() {
     return this.studentsService.findAllStudents();
+  }
+
+  @Put(':id')
+  update(@Param('id') id: number, @Body() Dto: CreateStudentDto) {
+    return this.studentsService.updateStudent(id, Dto);
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: number) {
+    return this.studentsService.deleteStudent(id);
   }
 }

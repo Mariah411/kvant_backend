@@ -15,7 +15,7 @@ interface SdudentCreationAttrs {
   id_group?: number;
 }
 
-@Table({ tableName: 'student' })
+@Table({ tableName: 'student', createdAt: false, updatedAt: false })
 export class Student extends Model<Student, SdudentCreationAttrs> {
   @Column({
     type: DataType.INTEGER,
