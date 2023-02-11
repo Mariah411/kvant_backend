@@ -1,9 +1,11 @@
+import { Visit } from './../visits/visits.model';
 import { Groups } from 'src/groups/gpoups.model';
 import {
   BelongsTo,
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -40,4 +42,7 @@ export class Student extends Model<Student, SdudentCreationAttrs> {
 
   @BelongsTo(() => Groups, { onDelete: 'SET NULL' })
   group: Groups;
+
+  @HasMany(() => Visit, { onDelete: 'CASCADE' })
+  visits: Visit;
 }

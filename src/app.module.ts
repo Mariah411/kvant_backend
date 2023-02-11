@@ -1,3 +1,4 @@
+import { Visit } from './visits/visits.model';
 import { Student } from './students/students.model';
 import { Kvantum } from './kvantums/kvantums.model';
 import { WorkerRoles } from './roles/worker-roles.model';
@@ -15,6 +16,7 @@ import { GroupsService } from './groups/groups.service';
 import { GroupsModule } from './groups/groups.module';
 import { Groups } from './groups/gpoups.model';
 import { StudentsModule } from './students/students.module';
+import { VisitsModule } from './visits/visits.module';
 
 @Module({
   controllers: [],
@@ -30,8 +32,9 @@ import { StudentsModule } from './students/students.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [Workers, Role, WorkerRoles, Kvantum, Groups, Student],
+      models: [Workers, Role, WorkerRoles, Kvantum, Groups, Student, Visit],
       autoLoadModels: true,
+      timezone: '+03:00',
     }),
     WorkersModule,
     RolesModule,
@@ -39,6 +42,7 @@ import { StudentsModule } from './students/students.module';
     KvantumsModule,
     GroupsModule,
     StudentsModule,
+    VisitsModule,
   ],
 })
 export class AppModule {}
