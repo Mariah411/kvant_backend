@@ -1,3 +1,4 @@
+import { Rating } from './ratings/ratings.model';
 import { Visit } from './visits/visits.model';
 import { Student } from './students/students.model';
 import { Kvantum } from './kvantums/kvantums.model';
@@ -17,6 +18,10 @@ import { GroupsModule } from './groups/groups.module';
 import { Groups } from './groups/gpoups.model';
 import { StudentsModule } from './students/students.module';
 import { VisitsModule } from './visits/visits.module';
+import { AchievementModule } from './achievement/achievement.module';
+
+import { RatingsService } from './ratings/ratings.service';
+import { RatingsModule } from './ratings/ratings.module';
 
 @Module({
   controllers: [],
@@ -32,7 +37,16 @@ import { VisitsModule } from './visits/visits.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [Workers, Role, WorkerRoles, Kvantum, Groups, Student, Visit],
+      models: [
+        Workers,
+        Role,
+        WorkerRoles,
+        Kvantum,
+        Groups,
+        Student,
+        Visit,
+        Rating,
+      ],
       autoLoadModels: true,
       timezone: '+03:00',
     }),
@@ -43,6 +57,8 @@ import { VisitsModule } from './visits/visits.module';
     GroupsModule,
     StudentsModule,
     VisitsModule,
+    AchievementModule,
+    RatingsModule,
   ],
 })
 export class AppModule {}
