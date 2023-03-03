@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Achievement } from './../achievement/achievement.model';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
 
 interface RatingCreationAttrs {
   description: string;
@@ -21,6 +22,6 @@ export class Rating extends Model<Rating, RatingCreationAttrs> {
   @Column({ type: DataType.DOUBLE, allowNull: false })
   points: number;
 
-  //   @HasMany(() => Groups)
-  //   groups: Groups[];
+  @HasMany(() => Achievement)
+  achievements: Achievement[];
 }

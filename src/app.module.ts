@@ -1,3 +1,4 @@
+import { Achievement } from './achievement/achievement.model';
 import { Rating } from './ratings/ratings.model';
 import { Visit } from './visits/visits.model';
 import { Student } from './students/students.model';
@@ -46,6 +47,7 @@ import { RatingsModule } from './ratings/ratings.module';
         Student,
         Visit,
         Rating,
+        Achievement,
       ],
       autoLoadModels: true,
       timezone: '+03:00',

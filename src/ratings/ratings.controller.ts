@@ -26,11 +26,11 @@ export class RatingsController {
 
   @Put(':id')
   update(@Param('id') id: number, @Body() dto: CreateRatingDto) {
-    return this.ratingsService.updateKvantum(id, dto);
+    return this.ratingsService.updateRating(id, dto);
   }
 
   @Delete(':id')
   delete(@Param('id') id: number) {
-    return this.ratingsService.deleteKvantum(id);
+    return this.ratingsService.deleteRating(id);
   }
 }

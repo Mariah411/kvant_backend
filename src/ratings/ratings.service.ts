@@ -19,7 +19,7 @@ export class RatingsService {
     return await this.ratingRepository.findByPk(id);
   }
 
-  async updateKvantum(id: number, dto: CreateRatingDto) {
+  async updateRating(id: number, dto: CreateRatingDto) {
     const isUpdate = await this.ratingRepository.update(
       { description: dto.description, points: dto.points },
       { where: { id: id } },
@@ -27,7 +27,7 @@ export class RatingsService {
     return isUpdate;
   }
 
-  async deleteKvantum(id: number) {
+  async deleteRating(id: number) {
     const isDelete = await this.ratingRepository.destroy({
       where: {
         id: id,
