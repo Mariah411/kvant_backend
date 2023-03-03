@@ -19,6 +19,11 @@ export class StudentsService {
     return students;
   }
 
+  async getStudentById(id: number) {
+    const student = await this.studentRepository.findByPk(id);
+    return student;
+  }
+
   async updateStudent(id: number, dto: CreateStudentDto) {
     const isUpdate = await this.studentRepository.update(
       {

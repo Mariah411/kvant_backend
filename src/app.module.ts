@@ -1,3 +1,5 @@
+import { AchievementStudents } from './achievement/achievement-students.model';
+import { AchievementWorkers } from 'src/achievement/achievement-workers.model';
 import { Achievement } from './achievement/achievement.model';
 import { Rating } from './ratings/ratings.model';
 import { Visit } from './visits/visits.model';
@@ -21,7 +23,6 @@ import { StudentsModule } from './students/students.module';
 import { VisitsModule } from './visits/visits.module';
 import { AchievementModule } from './achievement/achievement.module';
 
-import { RatingsService } from './ratings/ratings.service';
 import { RatingsModule } from './ratings/ratings.module';
 
 @Module({
@@ -48,6 +49,8 @@ import { RatingsModule } from './ratings/ratings.module';
         Visit,
         Rating,
         Achievement,
+        AchievementWorkers,
+        AchievementStudents,
       ],
       autoLoadModels: true,
       timezone: '+03:00',

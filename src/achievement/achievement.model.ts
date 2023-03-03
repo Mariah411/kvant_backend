@@ -1,12 +1,17 @@
+import { AchievementWorkers } from './achievement-workers.model';
 import { Rating } from './../ratings/ratings.model';
 import {
   BelongsTo,
+  BelongsToMany,
   Column,
   DataType,
   ForeignKey,
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Workers } from 'src/workers/workers.model';
+import { AchievementStudents } from './achievement-students.model';
+import { Student } from 'src/students/students.model';
 
 interface AchievementCreationAttrs {
   name: string;
@@ -44,4 +49,10 @@ export class Achievement extends Model<Achievement, AchievementCreationAttrs> {
 
   @BelongsTo(() => Rating, { onDelete: 'SET NULL' })
   rating: Rating;
+
+  @BelongsToMany(() => Workers, () => AchievementWorkers)
+  workers: Workers[];
+
+  @BelongsToMany(() => Student, () => AchievementStudents)
+  students: Student[];
 }

@@ -1,3 +1,5 @@
+import { AchievementWorkers } from './../achievement/achievement-workers.model';
+import { Achievement } from './../achievement/achievement.model';
 import {
   BelongsToMany,
   Column,
@@ -36,6 +38,9 @@ export class Workers extends Model<Workers, WorkersCreationAttrs> {
 
   @BelongsToMany(() => Role, () => WorkerRoles)
   roles: Role[];
+
+  @BelongsToMany(() => Achievement, () => AchievementWorkers)
+  achievements: Achievement[];
 
   @HasMany(() => Groups, { onDelete: 'SET NULL' })
   groups: Groups[];

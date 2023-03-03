@@ -1,7 +1,7 @@
 export class CreateAchievementDto {
-  name: string;
-  place: number;
-  date: Date;
-  diplom: string;
-  id_rating: number;
+  readonly name: string;
+  readonly place: number;
+  readonly date: Date;
+  readonly diplom: string;
+  readonly id_rating: number;
 }

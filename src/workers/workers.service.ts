@@ -42,6 +42,10 @@ export class WorkersService {
     return worker;
   }
 
+  async gerWorkerbyId(id: number) {
+    const worker = await this.workerRepository.findByPk(id);
+    return worker;
+  }
   async addRoletoWorker(dto: AddRoleDto) {
     const worker = await this.workerRepository.findByPk(dto.id);
     const role = await this.roleService.getRoleByValue(dto.value);
