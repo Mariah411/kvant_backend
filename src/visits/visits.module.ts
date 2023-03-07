@@ -1,3 +1,4 @@
+import { TypeVisit } from './../type_visits/type_visits.model';
 import { Visit } from './visits.model';
 import { Module } from '@nestjs/common';
 import { VisitsService } from './visits.service';
@@ -8,6 +9,6 @@ import { SequelizeModule } from '@nestjs/sequelize';
 @Module({
   providers: [VisitsService],
   controllers: [VisitsController],
-  imports: [SequelizeModule.forFeature([Visit, Student])],
+  imports: [SequelizeModule.forFeature([Visit, Student, TypeVisit])],
 })
 export class VisitsModule {}

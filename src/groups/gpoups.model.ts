@@ -13,6 +13,7 @@ import { Workers } from 'src/workers/workers.model';
 
 interface GroupsCreationAttrs {
   name: string;
+  age: string;
   shedule: string;
 }
 
@@ -28,6 +29,9 @@ export class Groups extends Model<Groups, GroupsCreationAttrs> {
 
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
   name: string;
+
+  @Column({ type: DataType.STRING, allowNull: false })
+  age: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
   shedule: string;

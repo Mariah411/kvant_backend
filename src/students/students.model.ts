@@ -18,6 +18,7 @@ interface SdudentCreationAttrs {
   b_date: Date;
   year_study: number;
   id_group?: number;
+  note?: string;
 }
 
 @Table({ tableName: 'student', createdAt: false, updatedAt: false })
@@ -38,6 +39,9 @@ export class Student extends Model<Student, SdudentCreationAttrs> {
 
   @Column({ type: DataType.INTEGER, allowNull: false })
   year_study: number;
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  note: string;
 
   @ForeignKey(() => Groups)
   @Column({ type: DataType.INTEGER, allowNull: true })

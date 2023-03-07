@@ -1,3 +1,4 @@
+import { TypeVisit } from './type_visits/type_visits.model';
 import { AchievementStudents } from './achievement/achievement-students.model';
 import { AchievementWorkers } from 'src/achievement/achievement-workers.model';
 import { Achievement } from './achievement/achievement.model';
@@ -25,6 +26,8 @@ import { AchievementModule } from './achievement/achievement.module';
 
 import { RatingsModule } from './ratings/ratings.module';
 
+import { TypeVisitsModule } from './type_visits/type_visits.module';
+
 @Module({
   controllers: [],
   providers: [WorkersService, GroupsService],
@@ -51,6 +54,7 @@ import { RatingsModule } from './ratings/ratings.module';
         Achievement,
         AchievementWorkers,
         AchievementStudents,
+        TypeVisit,
       ],
       autoLoadModels: true,
       timezone: '+03:00',
@@ -64,6 +68,8 @@ import { RatingsModule } from './ratings/ratings.module';
     VisitsModule,
     AchievementModule,
     RatingsModule,
+
+    TypeVisitsModule,
   ],
 })
 export class AppModule {}

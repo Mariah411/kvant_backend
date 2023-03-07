@@ -25,6 +25,7 @@ export class GroupsService {
         id_teacher: dto.id_teacher,
         id_kvantum: dto.id_kvantum,
         name: dto.name,
+        age: dto.age,
         shedule: dto.shedule,
       },
       { where: { id: id } },

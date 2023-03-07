@@ -18,7 +18,9 @@ export class VisitsService {
   }
 
   async getAllVisits() {
-    const visits = await this.visitRepository.findAll();
+    const visits = await this.visitRepository.findAll({
+      include: { all: true },
+    });
     return visits;
   }
 
@@ -30,6 +32,8 @@ export class VisitsService {
     const isUpdate = await this.visitRepository.update(
       {
         is_visited: dto.is_visited,
+        points: dto.points,
+        id_type: dto.id_type,
       },
       {
         where: {
