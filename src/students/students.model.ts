@@ -17,6 +17,7 @@ interface SdudentCreationAttrs {
   FIO: string;
   b_date: Date;
   year_study: number;
+  num_doc: string;
   id_group?: number;
   note?: string;
 }
@@ -33,6 +34,9 @@ export class Student extends Model<Student, SdudentCreationAttrs> {
 
   @Column({ type: DataType.STRING, allowNull: false })
   FIO: string;
+
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  num_doc: string;
 
   @Column({ type: DataType.DATE, allowNull: false })
   b_date: Date;

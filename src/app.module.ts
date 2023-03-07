@@ -27,6 +27,7 @@ import { AchievementModule } from './achievement/achievement.module';
 import { RatingsModule } from './ratings/ratings.module';
 
 import { TypeVisitsModule } from './type_visits/type_visits.module';
+import { TestModule } from './test/test.module';
 
 @Module({
   controllers: [],
@@ -70,6 +71,8 @@ import { TypeVisitsModule } from './type_visits/type_visits.module';
     RatingsModule,
 
     TypeVisitsModule,
+
+    TestModule,
   ],
 })
 export class AppModule {}

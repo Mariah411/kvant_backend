@@ -29,6 +29,7 @@ export class StudentsService {
       {
         id_group: dto.id_group,
         FIO: dto.FIO,
+        num_doc: dto.num_doc,
         b_date: dto.b_date,
         year_study: dto.year_study,
       },

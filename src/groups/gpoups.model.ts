@@ -12,6 +12,8 @@ import {
 import { Workers } from 'src/workers/workers.model';
 
 interface GroupsCreationAttrs {
+  id_kvantum?: number;
+  id_teacher?: number;
   name: string;
   age: string;
   shedule: string;
