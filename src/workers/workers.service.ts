@@ -4,19 +4,24 @@ import { JwtAuthGuard } from './../auth/jwt-auth.guard';
 import { RolesService } from './../roles/roles.service';
 import { CreateWorkerDto } from './dto/create-worker.dto';
 import {
+  forwardRef,
   HttpException,
   HttpStatus,
+  Inject,
   Injectable,
   UseGuards,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Workers } from './workers.model';
+import { AchievementService } from 'src/achievement/achievement.service';
 
 @Injectable()
 export class WorkersService {
   constructor(
     @InjectModel(Workers) private workerRepository: typeof Workers,
     private roleService: RolesService,
+    @Inject(forwardRef(() => AchievementService))
+    private achivementService: AchievementService,
   ) {}
 
   async createWorker(dto: CreateWorkerDto) {
@@ -46,6 +51,23 @@ export class WorkersService {
     const worker = await this.workerRepository.findByPk(id);
     return worker;
   }
+
+  async getAllWorkerAchievements(id: number) {
+    const worker = await this.workerRepository.findByPk(id, {
+      include: { all: true },
+    });
+
+    const achivementsArr = [];
+
+    for (let el of worker.achievements) {
+      const ach = await this.achivementService.getAchievementById(
+        el.dataValues.id,
+      );
+      achivementsArr.push(ach);
+    }
+    return achivementsArr;
+  }
+
   async addRoletoWorker(dto: AddRoleDto) {
     const worker = await this.workerRepository.findByPk(dto.id);
     const role = await this.roleService.getRoleByValue(dto.value);

@@ -4,7 +4,13 @@ import { StudentsService } from './../students/students.service';
 import { AddStudentToAchDto } from './dto/add-student.dto';
 import { Achievement } from './achievement.model';
 import { InjectModel } from '@nestjs/sequelize';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { CreateAchievementDto } from './dto/create-achievement.dto';
 import { WorkersService } from 'src/workers/workers.service';
 
@@ -12,7 +18,9 @@ import { WorkersService } from 'src/workers/workers.service';
 export class AchievementService {
   constructor(
     @InjectModel(Achievement) private achievementRepository: typeof Achievement,
+    @Inject(forwardRef(() => StudentsService))
     private studentsService: StudentsService,
+    @Inject(forwardRef(() => WorkersService))
     private workersService: WorkersService,
   ) {}
 

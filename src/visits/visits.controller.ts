@@ -1,8 +1,17 @@
+import { GetIntervalVisitsDto } from './dto/get-interval-visits.dto';
 import { UpdateVisitDto } from './dto/update-visit.dto';
 import { CreateVisitDto } from './dto/create-visit.dto';
 import { VisitsService } from './visits.service';
 import { InjectModel } from '@nestjs/sequelize';
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { DeleteVisitDto } from './dto/delete-visit.dto';
 
 @Controller('visits')
@@ -14,6 +23,11 @@ export class VisitsController {
   @Post()
   create(@Body() dto: CreateVisitDto) {
     return this.visitsService.createVisit(dto);
+  }
+
+  @Post(':id')
+  getInterval(@Param('id') id: number, @Body() dto: GetIntervalVisitsDto) {
+    return this.visitsService.getIntervalVisits(id, dto);
   }
 
   @Get()

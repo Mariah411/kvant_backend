@@ -38,7 +38,7 @@ export class Student extends Model<Student, SdudentCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
   num_doc: string;
 
-  @Column({ type: DataType.DATE, allowNull: false })
+  @Column({ type: DataType.DATEONLY, allowNull: false })
   b_date: Date;
 
   @Column({ type: DataType.INTEGER, allowNull: false })

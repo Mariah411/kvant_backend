@@ -1,3 +1,4 @@
+import { AchievementModule } from './../achievement/achievement.module';
 import { Achievement } from './../achievement/achievement.model';
 import { Groups } from './../groups/gpoups.model';
 import { AuthModule } from './../auth/auth.module';
@@ -25,6 +26,7 @@ import { AchievementWorkers } from 'src/achievement/achievement-workers.model';
     ]),
     RolesModule,
     forwardRef(() => AuthModule),
+    forwardRef(() => AchievementModule),
   ],
   exports: [SequelizeModule, WorkersService],
 })

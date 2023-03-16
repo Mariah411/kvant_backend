@@ -1,12 +1,19 @@
+import { Visit } from 'src/visits/visits.model';
+import { AchievementStudents } from './../achievement/achievement-students.model';
+import { Achievement } from './../achievement/achievement.model';
+import { Groups } from './../groups/gpoups.model';
 import { Student } from './students.model';
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateStudentDto } from './dto/create-student.dto';
+import { AchievementService } from 'src/achievement/achievement.service';
 
 @Injectable()
 export class StudentsService {
   constructor(
     @InjectModel(Student) private studentRepository: typeof Student,
+    @Inject(forwardRef(() => AchievementService))
+    private achivementService: AchievementService,
   ) {}
 
   async createStudent(dto: CreateStudentDto) {
@@ -19,9 +26,39 @@ export class StudentsService {
     return students;
   }
 
+  async getAllStudentsInfo() {
+    const students = await this.studentRepository.findAll({
+      include: { model: Groups, as: 'group' },
+    });
+    return students;
+  }
+
   async getStudentById(id: number) {
     const student = await this.studentRepository.findByPk(id);
     return student;
+  }
+
+  async getStudentVisits(id: number) {
+    const student = await this.studentRepository.findByPk(id, {
+      include: { model: Visit },
+    });
+    return student;
+  }
+
+  async getAllStudentAchievements(id: number) {
+    const student = await this.studentRepository.findByPk(id, {
+      include: { all: true },
+    });
+
+    const achivementsArr = [];
+
+    for (let el of student.achievements) {
+      const ach = await this.achivementService.getAchievementById(
+        el.dataValues.id,
+      );
+      achivementsArr.push(ach);
+    }
+    return achivementsArr;
   }
 
   async updateStudent(id: number, dto: CreateStudentDto) {

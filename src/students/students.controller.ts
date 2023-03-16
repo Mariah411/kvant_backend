@@ -26,6 +26,21 @@ export class StudentsController {
     return this.studentsService.findAllStudents();
   }
 
+  @Get('/info')
+  getAllInfo() {
+    return this.studentsService.getAllStudentsInfo();
+  }
+
+  @Get(':id/achivements')
+  getAchivements(@Param('id') id: number) {
+    return this.studentsService.getAllStudentAchievements(id);
+  }
+
+  @Post(':id/visits')
+  getVisits(@Param('id') id: number) {
+    return this.studentsService.getStudentVisits(id);
+  }
+
   @Put(':id')
   update(@Param('id') id: number, @Body() Dto: CreateStudentDto) {
     return this.studentsService.updateStudent(id, Dto);

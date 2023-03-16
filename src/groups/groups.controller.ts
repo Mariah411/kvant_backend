@@ -1,3 +1,4 @@
+import { GetIntervalVisitsDto } from './../visits/dto/get-interval-visits.dto';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { GroupsService } from './groups.service';
 import {
@@ -22,6 +23,21 @@ export class GroupsController {
   @Get()
   getAll() {
     return this.groupsService.getAllGroups();
+  }
+
+  @Get(':id')
+  getById(@Param('id') id: number) {
+    return this.groupsService.getGroupById(id);
+  }
+
+  @Get(':id/visits')
+  getVisitsById(@Param('id') id: number, @Body() dto: GetIntervalVisitsDto) {
+    return this.groupsService.getGroupVisitsById(id, dto);
+  }
+
+  @Get('/worker/:id')
+  getByWorkerId(@Param('id') id: number) {
+    return this.groupsService.getGroupsByWorkerId(id);
   }
 
   @Put(':id')

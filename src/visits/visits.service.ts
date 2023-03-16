@@ -4,6 +4,7 @@ import { CreateVisitDto } from './dto/create-visit.dto';
 import { Visit } from './visits.model';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { GetIntervalVisitsDto } from './dto/get-interval-visits.dto';
 
 const { Op, fn } = require('sequelize');
 const moment = require('moment');
@@ -60,5 +61,21 @@ export class VisitsService {
       },
     });
     return isDelete;
+  }
+
+  async getIntervalVisits(id: number, dto: GetIntervalVisitsDto) {
+    const start_date = moment(new Date(dto.start_date)).format('YYYY-MM-DD');
+    const end_date = moment(new Date(dto.end_date)).format('YYYY-MM-DD');
+
+    const visits = await this.visitRepository.findAll({
+      where: {
+        [Op.and]: [
+          { id_student: { [Op.eq]: id } },
+          { visit_date: { [Op.between]: [start_date, end_date] } },
+        ],
+      },
+    });
+
+    return visits;
   }
 }

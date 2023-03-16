@@ -262,9 +262,20 @@ export class TestService {
       id_rating: 3,
     });
 
+    const ach3 = await Achievement.create({
+      name: 'Школа проектов',
+      place: 2,
+      date: new Date('2022-11-10'),
+      diplom: '4.jpg',
+      id_rating: 3,
+    });
+
     ach1.$add('students', await Student.findByPk(2));
     ach1.$add('students', await Student.findByPk(3));
     ach1.$add('workers', await Workers.findByPk(1));
+
+    ach3.$add('students', await Student.findByPk(2));
+    ach3.$add('workers', await Workers.findByPk(1));
 
     ach2.$add('students', await Student.findByPk(1));
     ach2.$add('workers', await Workers.findByPk(2));

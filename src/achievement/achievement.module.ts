@@ -4,7 +4,7 @@ import { Workers } from 'src/workers/workers.model';
 import { Student } from 'src/students/students.model';
 import { AchievementStudents } from './achievement-students.model';
 import { AchievementWorkers } from './achievement-workers.model';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { AchievementService } from './achievement.service';
 import { AchievementController } from './achievement.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
@@ -23,8 +23,9 @@ import { Achievement } from './achievement.model';
       Workers,
       Student,
     ]),
-    StudentsModule,
-    WorkersModule,
+    forwardRef(() => StudentsModule),
+    forwardRef(() => WorkersModule),
   ],
+  exports: [SequelizeModule, AchievementService],
 })
 export class AchievementModule {}

@@ -16,7 +16,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles-auth.decorator';
 import { UpdateWorkerDto } from './dto/update-worker.dto';
 
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller('workers')
 export class WorkersController {
   constructor(private workersService: WorkersService) {}
@@ -31,6 +31,11 @@ export class WorkersController {
   @Get()
   getAll() {
     return this.workersService.getAllWorkers();
+  }
+
+  @Get(':id/achivements')
+  getAchivements(@Param('id') id: number) {
+    return this.workersService.getAllWorkerAchievements(id);
   }
 
   @Roles('ADMIN')
