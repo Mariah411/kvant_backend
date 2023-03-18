@@ -15,4 +15,9 @@ export class AuthController {
   registration(@Body() workerDto: CreateWorkerDto) {
     return this.authService.registration(workerDto);
   }
+
+  // @Post('/validate')
+  // validate(@Body() token) {
+  //   return this.authService.validateToken(token.token);
+  // }
 }

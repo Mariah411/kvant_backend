@@ -26,7 +26,7 @@ export class WorkersService {
 
   async createWorker(dto: CreateWorkerDto) {
     const worker = await this.workerRepository.create(dto);
-    const role = await this.roleService.getRoleByValue('ADMIN');
+    const role = await this.roleService.getRoleByValue('USER');
     await worker.$set('roles', [role.id]);
     worker.roles = [role];
     return worker;

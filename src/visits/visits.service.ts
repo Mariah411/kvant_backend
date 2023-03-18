@@ -18,6 +18,12 @@ export class VisitsService {
     return visit;
   }
 
+  async createVisits(dtos: CreateVisitDto[]) {
+    for (let dto of dtos) {
+      const visit = await this.visitRepository.create(dto);
+    }
+  }
+
   async getAllVisits() {
     const visits = await this.visitRepository.findAll({
       include: { all: true },

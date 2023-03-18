@@ -55,16 +55,34 @@ export class AuthService {
     };
   }
 
+  // async validateToken(token: string) {
+  //   const worker = this.jwtService.decode(token);
+  //   if (worker) {
+  //     return worker;
+  //   } else {
+  //     throw new UnauthorizedException({
+  //       message: 'Вы не авторизованы',
+  //     });
+  //   }
+  // }
+
   private async validateWorker(workerDto: CreateWorkerDto) {
     const worker = await this.workersService.getWorkerByEmail(workerDto.email);
-    const passwordEquals = await bcrypt.compare(
-      workerDto.password,
-      worker.password,
-    );
-    console.log(worker);
-    console.log(passwordEquals);
-    if (worker && passwordEquals) {
-      return worker;
+    console.log('Работник', worker);
+    if (worker !== null) {
+      const passwordEquals = await bcrypt.compare(
+        workerDto.password,
+        worker.password,
+      );
+      //console.log(worker);
+      console.log(passwordEquals);
+      if (worker && passwordEquals) {
+        return worker;
+      } else {
+        throw new UnauthorizedException({
+          message: 'Некорректный email или пароль',
+        });
+      }
     } else {
       throw new UnauthorizedException({
         message: 'Некорректный email или пароль',

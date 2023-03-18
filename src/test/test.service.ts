@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/auth.service';
 import { Rating } from './../ratings/ratings.model';
 import { AchievementWorkers } from './../achievement/achievement-workers.model';
 import { AchievementStudents } from './../achievement/achievement-students.model';
@@ -12,9 +13,16 @@ import { Workers } from 'src/workers/workers.model';
 import { QUERY } from './query';
 import { Groups } from 'src/groups/gpoups.model';
 import { Visit } from 'src/visits/visits.model';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class TestService {
+  constructor(
+    private authService: AuthService,
+    private jwtService: JwtService,
+  ) {}
+
+  KEY = process.env.SECRET_KEY;
   async create() {
     await this.clear();
     await this.createWorkers();
@@ -48,35 +56,38 @@ export class TestService {
       description: 'Методист',
     });
 
-    const admin = await Workers.create({
+    const token0 = await this.authService.registration({
       email: 'admin@mail.ru',
       password: 'admin',
       FIO: 'Петренко Пётр Петрович',
     });
-    admin.$set('roles', adminRole);
-    admin.$set('roles', userRole);
 
-    const user1 = await Workers.create({
+    const admin = await Workers.findOne({ where: { email: 'admin@mail.ru' } });
+    //console.log(admin);
+
+    admin.$add('roles', adminRole);
+
+    const token1 = await this.authService.registration({
       email: 'user1@mail.ru',
-      password: 'user',
+      password: 'user1',
       FIO: 'Павленко Сергей Петрович',
     });
-    user1.$set('roles', userRole);
-    user1.$set('roles', editorRole);
 
-    const user2 = await Workers.create({
+    const user1 = await Workers.findOne({ where: { email: 'user1@mail.ru' } });
+    //console.log(admin);
+    user1.$add('roles', editorRole);
+
+    const token2 = await this.authService.registration({
       email: 'user2@mail.ru',
-      password: 'user',
+      password: 'user2',
       FIO: 'Бромов Антон Павлович',
     });
-    user2.$set('roles', userRole);
 
-    const user3 = await Workers.create({
+    const token3 = await this.authService.registration({
       email: 'user3@mail.ru',
-      password: 'user',
+      password: 'user3',
       FIO: 'Борисова Мария Степановна',
     });
-    user3.$set('roles', userRole);
   }
 
   async createKvantums() {
