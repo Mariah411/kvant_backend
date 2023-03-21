@@ -28,6 +28,7 @@ import { RatingsModule } from './ratings/ratings.module';
 
 import { TypeVisitsModule } from './type_visits/type_visits.module';
 import { TestModule } from './test/test.module';
+import { EditorModule } from './editor/editor.module';
 
 @Module({
   controllers: [],
@@ -73,6 +74,8 @@ import { TestModule } from './test/test.module';
     TypeVisitsModule,
 
     TestModule,
+
+    EditorModule,
   ],
 })
 export class AppModule {}
