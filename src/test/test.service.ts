@@ -51,6 +51,11 @@ export class TestService {
       description: 'Обычный пользователь',
     });
 
+    const teacherRole = await Role.create({
+      value: 'TEACHER',
+      description: 'Педагог',
+    });
+
     const editorRole = await Role.create({
       value: 'EDITOR',
       description: 'Методист',
@@ -76,6 +81,7 @@ export class TestService {
     const user1 = await Workers.findOne({ where: { email: 'user1@mail.ru' } });
     //console.log(admin);
     user1.$add('roles', editorRole);
+    user1.$add('roles', teacherRole);
 
     const token2 = await this.authService.registration({
       email: 'user2@mail.ru',
@@ -83,11 +89,18 @@ export class TestService {
       FIO: 'Бромов Антон Павлович',
     });
 
+    const user2 = await Workers.findOne({ where: { email: 'user2@mail.ru' } });
+    user2.$add('roles', teacherRole);
+
     const token3 = await this.authService.registration({
       email: 'user3@mail.ru',
       password: 'user3',
       FIO: 'Борисова Мария Степановна',
     });
+
+    const user3 = await Workers.findOne({ where: { email: 'user3@mail.ru' } });
+
+    user3.$add('roles', teacherRole);
   }
 
   async createKvantums() {

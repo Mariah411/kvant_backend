@@ -1,3 +1,4 @@
+import { Role } from './../roles/roles.model';
 import { UpdateWorkerDto } from './dto/update-worker.dto';
 import { AddRoleDto } from './dto/add-role.dto';
 import { JwtAuthGuard } from './../auth/jwt-auth.guard';
@@ -35,6 +36,13 @@ export class WorkersService {
   async getAllWorkers() {
     const workers = await this.workerRepository.findAll({
       include: { all: true },
+    });
+    return workers;
+  }
+
+  async getAllWorkersWithRoles() {
+    const workers = await this.workerRepository.findAll({
+      include: { model: Role },
     });
     return workers;
   }

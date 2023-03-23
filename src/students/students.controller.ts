@@ -31,10 +31,15 @@ export class StudentsController {
     return this.studentsService.getAllStudentsInfo();
   }
 
-  @Get(':id/achivements')
-  getAchivements(@Param('id') id: number) {
-    return this.studentsService.getAllStudentAchievements(id);
+  @Get(':id')
+  getById(@Param('id') id: number) {
+    return this.studentsService.getStudentById(id);
   }
+
+  // @Get(':id/achivements')
+  // getAchivements(@Param('id') id: number) {
+  //   return this.studentsService.getAllStudentAchievements(id);
+  // }
 
   @Post(':id/visits')
   getVisits(@Param('id') id: number) {

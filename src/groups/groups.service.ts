@@ -1,3 +1,4 @@
+import { Workers } from 'src/workers/workers.model';
 import { GetIntervalVisitsDto } from './../visits/dto/get-interval-visits.dto';
 import { VisitsService } from './../visits/visits.service';
 import { Student } from 'src/students/students.model';
@@ -21,7 +22,14 @@ export class GroupsService {
 
   async getAllGroups() {
     const groups = await this.groupsRepository.findAll({
-      include: { all: true },
+      // include: { all: true },
+    });
+    return groups;
+  }
+
+  async getGroupsWithKvantumsAndTeachers() {
+    const groups = await this.groupsRepository.findAll({
+      include: [{ model: Workers }, { model: Kvantum }],
     });
     return groups;
   }

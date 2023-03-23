@@ -15,5 +15,6 @@ import { Kvantum } from 'src/kvantums/kvantums.model';
     SequelizeModule.forFeature([Groups, Workers, Kvantum, Student]),
     VisitsModule,
   ],
+  exports: [GroupsService],
 })
 export class GroupsModule {}

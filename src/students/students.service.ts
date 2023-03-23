@@ -12,8 +12,6 @@ import { AchievementService } from 'src/achievement/achievement.service';
 export class StudentsService {
   constructor(
     @InjectModel(Student) private studentRepository: typeof Student,
-    @Inject(forwardRef(() => AchievementService))
-    private achivementService: AchievementService,
   ) {}
 
   async createStudent(dto: CreateStudentDto) {
@@ -34,31 +32,18 @@ export class StudentsService {
   }
 
   async getStudentById(id: number) {
-    const student = await this.studentRepository.findByPk(id);
+    const student = await this.studentRepository.findByPk(id, {
+      include: { all: true },
+    });
     return student;
   }
 
+  asyc;
   async getStudentVisits(id: number) {
     const student = await this.studentRepository.findByPk(id, {
       include: { model: Visit },
     });
     return student;
-  }
-
-  async getAllStudentAchievements(id: number) {
-    const student = await this.studentRepository.findByPk(id, {
-      include: { all: true },
-    });
-
-    const achivementsArr = [];
-
-    for (let el of student.achievements) {
-      const ach = await this.achivementService.getAchievementById(
-        el.dataValues.id,
-      );
-      achivementsArr.push(ach);
-    }
-    return achivementsArr;
   }
 
   async updateStudent(id: number, dto: CreateStudentDto) {
@@ -69,6 +54,7 @@ export class StudentsService {
         num_doc: dto.num_doc,
         b_date: dto.b_date,
         year_study: dto.year_study,
+        note: dto.note,
       },
       { where: { id: id } },
     );
