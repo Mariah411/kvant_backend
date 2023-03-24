@@ -30,7 +30,7 @@ export class Workers extends Model<Workers, WorkersCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: false })
   FIO: string;
 
-  @Column({ type: DataType.STRING, allowNull: false, unique: false })
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
   email: string;
 
   @Column({ type: DataType.STRING, allowNull: false })

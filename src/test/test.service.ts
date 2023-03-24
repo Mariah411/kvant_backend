@@ -46,10 +46,10 @@ export class TestService {
       description: 'Администратор',
     });
 
-    const userRole = await Role.create({
-      value: 'USER',
-      description: 'Обычный пользователь',
-    });
+    // const userRole = await Role.create({
+    //   value: 'USER',
+    //   description: 'Обычный пользователь',
+    // });
 
     const teacherRole = await Role.create({
       value: 'TEACHER',

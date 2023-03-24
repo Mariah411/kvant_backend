@@ -15,4 +15,9 @@ export class RolesController {
   getByValue(@Param('value') value: string) {
     return this.rolesServise.getRoleByValue(value);
   }
+
+  @Get()
+  getAll() {
+    return this.rolesServise.getAllRoles();
+  }
 }

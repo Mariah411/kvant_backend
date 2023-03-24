@@ -27,9 +27,9 @@ export class WorkersService {
 
   async createWorker(dto: CreateWorkerDto) {
     const worker = await this.workerRepository.create(dto);
-    const role = await this.roleService.getRoleByValue('USER');
-    await worker.$set('roles', [role.id]);
-    worker.roles = [role];
+    // const role = await this.roleService.getRoleByValue('USER');
+    // await worker.$set('roles', [role.id]);
+    // worker.roles = [role];
     return worker;
   }
 
@@ -90,11 +90,27 @@ export class WorkersService {
   }
 
   async updateWorker(id: number, dto: UpdateWorkerDto) {
-    const worker = await this.workerRepository.update(
+    const isUpdated = await this.workerRepository.update(
       { email: dto.email, FIO: dto.FIO },
       { where: { id: id } },
     );
-    return worker;
+    const worker = await this.workerRepository.findByPk(id, {
+      include: { model: Role },
+    });
+
+    if (worker) {
+      worker.roles.forEach((r) => {
+        worker.$remove('role', r.id);
+      });
+      for (let r of dto.roles) {
+        const role = await this.roleService.getRoleByValue(r);
+        if (role) await worker.$add('role', role.id);
+      }
+
+      return true;
+    } else {
+      return false;
+    }
   }
 
   async deleteWorker(id: number) {
