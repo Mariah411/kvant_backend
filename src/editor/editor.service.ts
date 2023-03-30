@@ -57,4 +57,8 @@ export class EditorService {
     }
     return achivementsArr;
   }
+
+  async getAllAchivementsInfo() {
+    return await this.achivementService.getAllAchievementsInfo();
+  }
 }

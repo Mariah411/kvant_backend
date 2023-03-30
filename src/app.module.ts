@@ -29,11 +29,17 @@ import { RatingsModule } from './ratings/ratings.module';
 import { TypeVisitsModule } from './type_visits/type_visits.module';
 import { TestModule } from './test/test.module';
 import { EditorModule } from './editor/editor.module';
+import { FilesModule } from './files/files.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 
 @Module({
   controllers: [],
   providers: [WorkersService, GroupsService],
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: path.resolve(__dirname, 'static'),
+    }),
     ConfigModule.forRoot({
       envFilePath: `${process.env.NODE_ENV}.env`,
     }),
@@ -76,6 +82,8 @@ import { EditorModule } from './editor/editor.module';
     TestModule,
 
     EditorModule,
+
+    FilesModule,
   ],
 })
 export class AppModule {}

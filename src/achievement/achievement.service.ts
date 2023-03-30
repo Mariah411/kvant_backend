@@ -1,5 +1,8 @@
+import { FilesService } from './../files/files.service';
+import { UpdateAchievementDto } from './dto/update-achievement.dto';
+import { Student } from './../students/students.model';
+import { Workers } from './../workers/workers.model';
 import { AddWorkerToAchDto } from './dto/add-worker.dto';
-import { Student } from 'src/students/students.model';
 import { StudentsService } from './../students/students.service';
 import { AddStudentToAchDto } from './dto/add-student.dto';
 import { Achievement } from './achievement.model';
@@ -22,14 +25,24 @@ export class AchievementService {
     private studentsService: StudentsService,
     @Inject(forwardRef(() => WorkersService))
     private workersService: WorkersService,
+    private fileService: FilesService,
   ) {}
 
-  async createAchievement(dto: CreateAchievementDto) {
-    return await this.achievementRepository.create(dto);
+  async createAchievement(dto: CreateAchievementDto, image: any) {
+    //console.log(image);
+    const fileName = await this.fileService.createFile(image);
+    return await this.achievementRepository.create({
+      ...dto,
+      diplom: fileName,
+    });
   }
 
   async getAllAchievements() {
     return await this.achievementRepository.findAll();
+  }
+
+  async getAllAchievementsInfo() {
+    return await this.achievementRepository.findAll({ include: { all: true } });
   }
 
   async getAchievementById(id: number) {
@@ -38,7 +51,7 @@ export class AchievementService {
     });
   }
 
-  async updateAchievement(id: number, dto: CreateAchievementDto) {
+  async updateAchievement(id: number, dto: UpdateAchievementDto) {
     const isUpdate = await this.achievementRepository.update(
       {
         name: dto.name,
@@ -49,7 +62,32 @@ export class AchievementService {
       },
       { where: { id: id } },
     );
-    return isUpdate;
+
+    if (isUpdate) {
+      const ach = await this.achievementRepository.findByPk(id, {
+        include: [{ model: Student }, { model: Workers }],
+      });
+
+      if (ach) {
+        ach.workers.forEach((w) => ach.$remove('worker', w.id));
+        ach.students.forEach((s) => ach.$remove('student', s.id));
+
+        for (let s of dto.students) {
+          const student = await this.studentsService.getStudentById(s);
+          if (student) await ach.$add('student', student.id);
+        }
+
+        for (let w of dto.workers) {
+          const worker = await this.workersService.gerWorkerbyId(w);
+          if (worker) await ach.$add('worker', worker.id);
+        }
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 
   async deleteAchievement(id: number) {

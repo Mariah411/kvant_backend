@@ -26,7 +26,7 @@ export class WorkersController {
     return this.workersService.createWorker(workersDto);
   }
 
-  @Roles('ADMIN')
+  // @Roles('ADMIN')
   @UseGuards(RolesGuard)
   @Get()
   getAll() {

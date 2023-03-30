@@ -1,3 +1,4 @@
+import { UpdateAchievementDto } from './dto/update-achievement.dto';
 import { AddWorkerToAchDto } from './dto/add-worker.dto';
 import { AddStudentToAchDto } from './dto/add-student.dto';
 import { CreateAchievementDto } from './dto/create-achievement.dto';
@@ -11,15 +12,20 @@ import {
   Param,
   Post,
   Put,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('achievement')
 export class AchievementController {
   constructor(private achievementServise: AchievementService) {}
 
   @Post()
-  create(@Body() dto: CreateAchievementDto) {
-    return this.achievementServise.createAchievement(dto);
+  @UseInterceptors(FileInterceptor('image'))
+  create(@Body() dto: CreateAchievementDto, @UploadedFile() image) {
+    console.log(image);
+    return this.achievementServise.createAchievement(dto, image);
   }
 
   @Get()
@@ -28,7 +34,7 @@ export class AchievementController {
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() dto: CreateAchievementDto) {
+  update(@Param('id') id: number, @Body() dto: UpdateAchievementDto) {
     return this.achievementServise.updateAchievement(id, dto);
   }
 

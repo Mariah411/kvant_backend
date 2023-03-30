@@ -4,4 +4,5 @@ export class CreateAchievementDto {
   readonly date: Date;
   readonly diplom: string;
   readonly id_rating: number;
+  readonly image: any;
 }

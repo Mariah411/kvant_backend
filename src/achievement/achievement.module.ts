@@ -1,3 +1,4 @@
+import { FilesModule } from './../files/files.module';
 import { WorkersModule } from './../workers/workers.module';
 import { StudentsModule } from './../students/students.module';
 import { Workers } from 'src/workers/workers.model';
@@ -15,6 +16,7 @@ import { Achievement } from './achievement.model';
   providers: [AchievementService],
   controllers: [AchievementController],
   imports: [
+    FilesModule,
     SequelizeModule.forFeature([
       Rating,
       Achievement,
