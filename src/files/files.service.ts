@@ -27,4 +27,9 @@ export class FilesService {
       );
     }
   }
+
+  async deleteFile(fileName: string) {
+    const filePath = path.resolve(__dirname, '..', 'static');
+    fs.unlinkSync(path.join(filePath, fileName));
+  }
 }

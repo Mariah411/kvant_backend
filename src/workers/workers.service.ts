@@ -56,7 +56,9 @@ export class WorkersService {
   }
 
   async gerWorkerbyId(id: number) {
-    const worker = await this.workerRepository.findByPk(id);
+    const worker = await this.workerRepository.findByPk(id, {
+      include: { all: true },
+    });
     return worker;
   }
 

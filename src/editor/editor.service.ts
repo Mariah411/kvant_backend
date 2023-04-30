@@ -61,4 +61,18 @@ export class EditorService {
   async getAllAchivementsInfo() {
     return await this.achivementService.getAllAchievementsInfo();
   }
+
+  async getAllWorkerAchievements(id: number) {
+    const worker = await this.workersService.gerWorkerbyId(id);
+
+    const achivementsArr = [];
+
+    for (let el of worker.achievements) {
+      const ach = await this.achivementService.getAchievementById(
+        el.dataValues.id,
+      );
+      achivementsArr.push(ach);
+    }
+    return achivementsArr;
+  }
 }

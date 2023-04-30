@@ -91,11 +91,14 @@ export class AchievementService {
   }
 
   async deleteAchievement(id: number) {
+    const diplom = (await this.achievementRepository.findByPk(id)).diplom;
     const isDelete = await this.achievementRepository.destroy({
       where: {
         id: id,
       },
     });
+
+    this.fileService.deleteFile(diplom);
 
     return isDelete;
   }

@@ -25,6 +25,11 @@ export class EditorController {
     return this.editorService.getAllStudentAchievements(id);
   }
 
+  @Get('/achievement/worker/:id')
+  getWorkerAchievements(@Param('id') id: number) {
+    return this.editorService.getAllWorkerAchievements(id);
+  }
+
   @Get('/achievements')
   getAllAchivements() {
     return this.editorService.getAllAchivementsInfo();

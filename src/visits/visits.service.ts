@@ -76,6 +76,24 @@ export class VisitsService {
     const visits = await this.visitRepository.findAll({
       where: {
         [Op.and]: [
+          { id_type: { [Op.eq]: 1 } },
+          { id_student: { [Op.eq]: id } },
+          { visit_date: { [Op.between]: [start_date, end_date] } },
+        ],
+      },
+    });
+
+    return visits;
+  }
+
+  async getIntervalAttestation(id: number, dto: GetIntervalVisitsDto) {
+    const start_date = moment(new Date(dto.start_date)).format('YYYY-MM-DD');
+    const end_date = moment(new Date(dto.end_date)).format('YYYY-MM-DD');
+
+    const visits = await this.visitRepository.findAll({
+      where: {
+        [Op.and]: [
+          { id_type: { [Op.eq]: 2 } },
           { id_student: { [Op.eq]: id } },
           { visit_date: { [Op.between]: [start_date, end_date] } },
         ],

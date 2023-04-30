@@ -59,6 +59,24 @@ export class GroupsService {
     return data;
   }
 
+  async getGroupAttestationsById(id: number, dto: GetIntervalVisitsDto) {
+    const group = await this.groupsRepository.findByPk(id, {
+      include: { model: Student },
+    });
+
+    let data = [];
+
+    for (let student of group.students) {
+      const visits = await this.visitsService.getIntervalAttestation(
+        student.dataValues.id,
+        dto,
+      );
+      const temp = { ...student.dataValues, visits: visits };
+      data.push(temp);
+    }
+    return data;
+  }
+
   async getGroupsByWorkerId(id: number) {
     const groups = await this.groupsRepository.findAll({
       include: { all: true },
