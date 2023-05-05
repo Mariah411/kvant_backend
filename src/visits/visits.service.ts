@@ -55,6 +55,7 @@ export class VisitsService {
   }
 
   async deleteVisit(dto: DeleteVisitDto) {
+    console.log('Данные:', dto);
     const new_date = moment(new Date(dto.visit_date)).format('YYYY-MM-DD');
     console.log(new_date);
 
@@ -81,6 +82,7 @@ export class VisitsService {
           { visit_date: { [Op.between]: [start_date, end_date] } },
         ],
       },
+      order: [['visit_date', 'ASC']],
     });
 
     return visits;
@@ -98,6 +100,7 @@ export class VisitsService {
           { visit_date: { [Op.between]: [start_date, end_date] } },
         ],
       },
+      order: [['visit_date', 'ASC']],
     });
 
     return visits;

@@ -3,6 +3,7 @@ import { UpdateVisitDto } from './dto/update-visit.dto';
 import { CreateVisitDto } from './dto/create-visit.dto';
 import { VisitsService } from './visits.service';
 import { InjectModel } from '@nestjs/sequelize';
+import { Request } from 'express';
 import {
   Body,
   Controller,
@@ -11,6 +12,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
 } from '@nestjs/common';
 import { DeleteVisitDto } from './dto/delete-visit.dto';
 
@@ -40,8 +42,11 @@ export class VisitsController {
     return this.visitsService.updateVisit(Dto);
   }
 
-  @Delete()
-  delete(@Body() Dto: DeleteVisitDto) {
-    return this.visitsService.deleteVisit(Dto);
+  @Delete('/:id_student/:visit_date')
+  delete(
+    @Param('id_student') id_student: number,
+    @Param('visit_date') visit_date: string,
+  ) {
+    return this.visitsService.deleteVisit({ id_student, visit_date });
   }
 }
