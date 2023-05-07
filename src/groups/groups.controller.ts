@@ -35,6 +35,14 @@ export class GroupsController {
     return this.groupsService.getGroupVisitsById(id, dto);
   }
 
+  // @Post(':id/attendance')
+  // getAttendanceById(
+  //   @Param('id') id: number,
+  //   @Body() dto: GetIntervalVisitsDto,
+  // ) {
+  //   return this.groupsService.getGroupAttendance(id, dto);
+  // }
+
   @Post(':id/attestation')
   getAttestationById(
     @Param('id') id: number,

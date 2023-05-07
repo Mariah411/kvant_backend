@@ -7,6 +7,8 @@ import { Groups } from 'src/groups/gpoups.model';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { Visit } from 'src/visits/visits.model';
+import { Model } from 'sequelize-typescript';
 
 @Injectable()
 export class GroupsService {
@@ -41,10 +43,15 @@ export class GroupsService {
     return group;
   }
 
-  async getGroupVisitsById(id: number, dto: GetIntervalVisitsDto) {
-    const group = await this.groupsRepository.findByPk(id, {
+  async getGroupStudents(id_group: number) {
+    const group = await this.groupsRepository.findByPk(id_group, {
       include: { model: Student },
     });
+    return group;
+  }
+
+  async getGroupVisitsById(id: number, dto: GetIntervalVisitsDto) {
+    const group = await this.getGroupStudents(id);
 
     let data = [];
 
@@ -60,10 +67,7 @@ export class GroupsService {
   }
 
   async getGroupAttestationsById(id: number, dto: GetIntervalVisitsDto) {
-    const group = await this.groupsRepository.findByPk(id, {
-      include: { model: Student },
-    });
-
+    const group = await this.getGroupStudents(id);
     let data = [];
 
     for (let student of group.students) {
@@ -76,6 +80,25 @@ export class GroupsService {
     }
     return data;
   }
+
+  // для рейтинга учеников - процент посещаемости
+  // async getGroupAttendance(id: number, dto: GetIntervalVisitsDto) {
+  //   const group = await this.getGroupStudents(id);
+
+  //   let data = [];
+
+  //   for (let student of group.students) {
+  //     const attendance = await this.visitsService.getStudentAttendance(
+  //       student.dataValues.id,
+  //       dto,
+  //     );
+
+  //     const temp = { ...student.dataValues, attendance: attendance };
+  //     data.push(temp);
+  //   }
+
+  //   return data;
+  // }
 
   async getGroupsByWorkerId(id: number) {
     const groups = await this.groupsRepository.findAll({

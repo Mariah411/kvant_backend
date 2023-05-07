@@ -31,6 +31,7 @@ import { TestModule } from './test/test.module';
 import { EditorModule } from './editor/editor.module';
 import { FilesModule } from './files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { ReportsModule } from './reports/reports.module';
 import * as path from 'path';
 
 @Module({
@@ -84,6 +85,8 @@ import * as path from 'path';
     EditorModule,
 
     FilesModule,
+
+    ReportsModule,
   ],
 })
 export class AppModule {}
