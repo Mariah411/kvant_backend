@@ -17,5 +17,6 @@ import { EditorController } from './editor.controller';
     RolesModule,
     AchievementModule,
   ],
+  exports: [EditorService],
 })
 export class EditorModule {}

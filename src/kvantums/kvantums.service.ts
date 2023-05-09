@@ -15,7 +15,9 @@ export class KvantumsService {
   }
 
   async getKvantumByID(id: number) {
-    const kvantum = await this.kvantumRepository.findByPk(id);
+    const kvantum = await this.kvantumRepository.findByPk(id, {
+      include: { all: true },
+    });
     return kvantum;
   }
 

@@ -9,5 +9,6 @@ import { SequelizeModule } from '@nestjs/sequelize';
   controllers: [KvantumsController],
   providers: [KvantumsService],
   imports: [SequelizeModule.forFeature([Kvantum, Groups])],
+  exports: [KvantumsService],
 })
 export class KvantumsModule {}
