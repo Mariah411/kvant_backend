@@ -2,6 +2,7 @@ import { KvantumsService } from './../kvantums/kvantums.service';
 import { Injectable } from '@nestjs/common';
 import { EditorService } from 'src/editor/editor.service';
 import { GroupsService } from 'src/groups/groups.service';
+import { StudentsService } from 'src/students/students.service';
 import { GetIntervalVisitsDto } from 'src/visits/dto/get-interval-visits.dto';
 import { VisitsService } from 'src/visits/visits.service';
 import { WorkersService } from 'src/workers/workers.service';
@@ -103,6 +104,80 @@ export class ReportsService {
       groupsAttendance.reduce((a, b) => a + b) / groupsAttendance.length;
     average = Math.round(average * 100) / 100;
     return average;
+  }
+
+  async getStudentAttendance(id: number, dto: GetIntervalVisitsDto) {
+    const all_lessons = (
+      await this.visitsService.getStudentVisitsInterval(id, 1, dto)
+    ).length;
+
+    const unvisited_lessons = (
+      await this.visitsService.getStudentUnVisitedLessons(id, dto)
+    ).length;
+
+    if (all_lessons === 0) return 0;
+
+    let attendance = (all_lessons - unvisited_lessons) / all_lessons;
+    attendance = Math.round(attendance * 100 * 100) / 100;
+
+    return attendance;
+  }
+
+  async countStudentAchivements(id: number, dto: GetIntervalVisitsDto) {
+    let achivements = await this.editorService.getAllStudentAchievements(id);
+
+    achivements = achivements.filter(
+      (ach) =>
+        ach.dataValues.date >= dto.start_date &&
+        ach.dataValues.date <= dto.end_date,
+    );
+
+    const points = achivements.reduce(
+      (sum, ach) => sum + ach.dataValues.rating.points,
+      0,
+    );
+    return points;
+  }
+
+  async groupRating(group_id: number, dto: GetIntervalVisitsDto) {
+    console.log(group_id);
+    const group = await this.groupsService.getGroupStudents(group_id);
+    let data = [];
+
+    for (let student of group.students) {
+      const temp = {
+        ...student.dataValues,
+        ...(await this.getStudentRaiting(student.dataValues.id, dto)),
+      };
+      data.push(temp);
+    }
+
+    data.sort((a, b) => (a.total_points < b.total_points ? 1 : -1));
+    return data;
+  }
+
+  async getStudentRaiting(id: number, dto: GetIntervalVisitsDto) {
+    const attendance = await this.getStudentAttendance(id, dto);
+    const points = await this.countStudentAchivements(id, dto);
+    const attestations = await this.visitsService.getIntervalAttestation(
+      id,
+      dto,
+    );
+
+    let attestations_points = 0;
+
+    if (attestations.length !== 0)
+      attestations_points =
+        attestations[attestations.length - 1].dataValues.points;
+
+    let total_points = attendance + points + attestations_points;
+    total_points = Math.round(total_points * 100) / 100;
+    return {
+      attendance: attendance,
+      achievements: points,
+      attestation: attestations_points,
+      total_points: total_points,
+    };
   }
 
   async getGroupAttendance(id: number, dto: GetIntervalVisitsDto) {

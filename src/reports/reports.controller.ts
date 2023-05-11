@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { ReportsService } from './reports.service';
 import { GetIntervalVisitsDto } from 'src/visits/dto/get-interval-visits.dto';
 
@@ -19,5 +19,10 @@ export class ReportsController {
   @Post('/attendance/kvantums')
   kvantumsAttendance(@Body() dto: GetIntervalVisitsDto) {
     return this.reportsService.kvantumsAttendance(dto);
+  }
+
+  @Post('/raiting/group/:id')
+  groupRaiting(@Param('id') id: number, @Body() dto: GetIntervalVisitsDto) {
+    return this.reportsService.groupRating(id, dto);
   }
 }

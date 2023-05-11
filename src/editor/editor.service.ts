@@ -6,6 +6,7 @@ import { GroupsService } from './../groups/groups.service';
 import { StudentsService } from './../students/students.service';
 import { Injectable } from '@nestjs/common';
 import { Workers } from 'src/workers/workers.model';
+import { Achievement } from 'src/achievement/achievement.model';
 
 @Injectable()
 export class EditorService {
@@ -47,7 +48,7 @@ export class EditorService {
   async getAllStudentAchievements(id: number) {
     const student = await this.studentsService.getStudentById(id);
 
-    const achivementsArr = [];
+    const achivementsArr: Achievement[] = [];
 
     for (let el of student.achievements) {
       const ach = await this.achivementService.getAchievementById(
@@ -65,7 +66,7 @@ export class EditorService {
   async getAllWorkerAchievements(id: number) {
     const worker = await this.workersService.gerWorkerbyId(id);
 
-    const achivementsArr = [];
+    const achivementsArr: Achievement[] = [];
 
     for (let el of worker.achievements) {
       const ach = await this.achivementService.getAchievementById(
