@@ -21,6 +21,21 @@ export class ReportsController {
     return this.reportsService.kvantumsAttendance(dto);
   }
 
+  @Post('/achievements/groups')
+  groupsAchievements(@Body() dto: GetIntervalVisitsDto) {
+    return this.reportsService.groupsAchievements(dto);
+  }
+
+  @Post('/achievements/teachers')
+  teahersAchievements(@Body() dto: GetIntervalVisitsDto) {
+    return this.reportsService.teachersAchievements(dto);
+  }
+
+  @Post('/achievements/kvantums')
+  kvantumsAchievements(@Body() dto: GetIntervalVisitsDto) {
+    return this.reportsService.kvantumsAchievements(dto);
+  }
+
   @Post('/raiting/group/:id')
   groupRaiting(@Param('id') id: number, @Body() dto: GetIntervalVisitsDto) {
     return this.reportsService.groupRating(id, dto);

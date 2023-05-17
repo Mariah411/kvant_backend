@@ -17,6 +17,7 @@ export class ReportsService {
     private kvantumsService: KvantumsService,
   ) {}
 
+  // Посещаемость
   async groupsAttendance(dto: GetIntervalVisitsDto) {
     const groups = await this.groupsService.getAllGroups();
     const data = [];
@@ -64,6 +65,7 @@ export class ReportsService {
     return data;
   }
 
+  // посещаемость (преподаватель)
   async getTeacherAttendance(id: number, dto: GetIntervalVisitsDto) {
     const teacher = await this.workersService.gerWorkerbyId(id);
 
@@ -85,6 +87,7 @@ export class ReportsService {
     return average;
   }
 
+  // посещаемость квантум
   async getKvantumAttendance(id: number, dto: GetIntervalVisitsDto) {
     const kvantum = await this.kvantumsService.getKvantumByID(id);
 
@@ -106,6 +109,7 @@ export class ReportsService {
     return average;
   }
 
+  // посещаемость ученика
   async getStudentAttendance(id: number, dto: GetIntervalVisitsDto) {
     const all_lessons = (
       await this.visitsService.getStudentVisitsInterval(id, 1, dto)
@@ -123,6 +127,7 @@ export class ReportsService {
     return attendance;
   }
 
+  // подсчет достижений ученика
   async countStudentAchivements(id: number, dto: GetIntervalVisitsDto) {
     let achivements = await this.editorService.getAllStudentAchievements(id);
 
@@ -137,6 +142,108 @@ export class ReportsService {
       0,
     );
     return points;
+  }
+
+  // подсчет достижений учителя
+  async countTeacherAchivements(id: number, dto: GetIntervalVisitsDto) {
+    let achivements = await this.editorService.getAllWorkerAchievements(id);
+
+    achivements = achivements.filter(
+      (ach) =>
+        ach.dataValues.date >= dto.start_date &&
+        ach.dataValues.date <= dto.end_date,
+    );
+
+    const points = achivements.reduce(
+      (sum, ach) => sum + ach.dataValues.rating.points,
+      0,
+    );
+    return points;
+  }
+
+  // подсчет достижений квантума
+  async countKvantumAchievements(id: number, dto: GetIntervalVisitsDto) {
+    const kvantum = await this.kvantumsService.getKvantumByID(id);
+
+    if (kvantum.groups.length === 0) return;
+    let data = 0;
+
+    for (let group of kvantum.groups) {
+      const temp = await this.countGroupAchivements(group.dataValues.id, dto);
+
+      data += temp;
+    }
+
+    return data;
+  }
+
+  // подсчет достижений группы
+  async countGroupAchivements(group_id: number, dto: GetIntervalVisitsDto) {
+    console.log(group_id);
+    const group = await this.groupsService.getGroupStudents(group_id);
+    let data = 0;
+
+    for (let student of group.students) {
+      const temp = await this.countStudentAchivements(
+        student.dataValues.id,
+        dto,
+      );
+      data += temp;
+    }
+
+    return data;
+  }
+
+  // достижения педагогов
+  async teachersAchievements(dto: GetIntervalVisitsDto) {
+    const teachers = await this.editorService.getTeachers();
+
+    const data = [];
+
+    for (let teacher of teachers) {
+      let temp = {
+        ...teacher,
+        achievements: await this.countTeacherAchivements(teacher.id, dto),
+      };
+      data.push(temp);
+    }
+
+    return data;
+  }
+
+  // достижения групп
+  async groupsAchievements(dto: GetIntervalVisitsDto) {
+    const groups = await this.groupsService.getAllGroups();
+    const data = [];
+
+    for (let group of groups) {
+      let temp = {
+        ...group.dataValues,
+        achievements: await this.countGroupAchivements(group.id, dto),
+      };
+      data.push(temp);
+    }
+
+    return data;
+  }
+
+  async kvantumsAchievements(dto: GetIntervalVisitsDto) {
+    const kvantums = await this.kvantumsService.getAllKvantums();
+
+    const data = [];
+
+    for (let kvantum of kvantums) {
+      let temp = {
+        ...kvantum.dataValues,
+        achievements: await this.countKvantumAchievements(
+          kvantum.dataValues.id,
+          dto,
+        ),
+      };
+      data.push(temp);
+    }
+
+    return data;
   }
 
   async groupRating(group_id: number, dto: GetIntervalVisitsDto) {
